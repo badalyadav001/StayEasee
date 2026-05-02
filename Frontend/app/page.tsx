@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/rooms");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/rooms`);
         const data = await res.json();
 
         setRooms(data);
