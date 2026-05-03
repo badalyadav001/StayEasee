@@ -8,12 +8,13 @@ const app = express();
 // 🔥 Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://stay-easee-git-main-badal-yadavs-projects.vercel.app",
+    ],
     credentials: true,
   }),
 );
-app.use(express.json());
-
 // 🔥 MongoDB
 mongoose
   .connect(process.env.MONGO_URL)
