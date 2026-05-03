@@ -11,21 +11,33 @@ export default function Home() {
 
   // 🔥 Fetch rooms from backend
   useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/rooms`);
-        const data = await res.json();
+  const fetchRooms = async () => {
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-        setRooms(data);
-      } catch (err) {
-        console.error("Error fetching rooms:", err);
-      } finally {
-        setLoading(false);
+      if (!API_URL) {
+        console.error("API URL missing ❌");
+        return;
       }
-    };
 
-    fetchRooms();
-  }, []);
+      const res = await fetch(`${API_URL}/api/rooms`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch rooms");
+      }
+
+      const data = await res.json();
+      setRooms(data);
+
+    } catch (err) {
+      console.error("Error fetching rooms:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchRooms();
+}, []);
 
   // 🔄 Transform backend data → frontend format
   const mappedRooms = rooms.map((room: any) => ({
